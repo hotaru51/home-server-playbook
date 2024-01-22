@@ -1,0 +1,9 @@
+---
+all:
+  children:
+    group1:
+      hosts:
+        sample-host:
+          ansible_host: xxx.xxx.xxx.xxx
+          ansible_user: sample
+          ansible_ssh_private_key_file: ~/.ssh/test_key
