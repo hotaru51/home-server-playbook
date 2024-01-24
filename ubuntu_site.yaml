@@ -1,0 +1,10 @@
+---
+- name: ubuntu setup
+  hosts: ubuntu
+  become: True
+  gather_facts: True
+
+  tasks:
+    - name: basic settings
+      include_role:
+        name: ubuntu_basic

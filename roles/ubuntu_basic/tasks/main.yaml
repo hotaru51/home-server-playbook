@@ -1,0 +1,54 @@
+---
+- name: apt upgrade
+  apt:
+    upgrade: yes
+    update_cache: yes
+
+- name: install packages
+  apt:
+    pkg:
+      - language-pack-ja-base
+      - language-pack-ja
+      - zip
+      - git
+
+- name: install qemu guest agent
+  apt:
+    pkg:
+      - qemu-guest-agent
+
+- name: set locale ja_JP.UTF-8
+  command: localectl set-locale LANG=ja_JP.UTF-8
+  when: ansible_facts['env']['LANG'] != "ja_JP.UTF-8"
+
+- name: set timezone Asia/Tokyo
+  command: timedatectl set-timezone Asia/Tokyo
+  when: ansible_facts['date_time']['tz'] != "JST"
+
+- name: disable ipv6 (sysctl)
+  copy:
+    src: sysctl/90-disable-ipv6.conf
+    dest: /etc/sysctl.d/
+
+- name: disable ipv6 (rc.local)
+  copy:
+    src: etc/rc.local
+    dest: /etc/
+    mode: 0755
+
+- name: check timesyncd.conf.bk exists
+  stat:
+    path: /etc/systemd/timesyncd.conf.bk
+  register: timesyncd_conf
+
+- name: backup timesyncd.conf
+  copy:
+    src: /etc/systemd/timesyncd.conf
+    remote_src: True
+    dest: /etc/systemd/timesyncd.conf.bk
+  when: timesyncd_conf['stat']['exists'] == false
+
+- name: put timesyncd.conf
+  copy:
+    src: etc/systemd/timesyncd.conf
+    dest: /etc/systemd/
