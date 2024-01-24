@@ -19,6 +19,8 @@
 
 - name: set locale ja_JP.UTF-8
   command: localectl set-locale LANG=ja_JP.UTF-8
+  when: ansible_facts['env']['LANG'] != "ja_JP.UTF-8"
 
 - name: set timezone Asia/Tokyo
   command: timedatectl set-timezone Asia/Tokyo
+  when: ansible_facts['date_time']['tz'] != "JST"

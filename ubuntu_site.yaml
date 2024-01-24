@@ -2,7 +2,7 @@
 - name: ubuntu setup
   hosts: ubuntu
   become: True
-  gather_facts: False
+  gather_facts: True
 
   tasks:
     - name: basic settings
