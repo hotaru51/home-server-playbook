@@ -24,3 +24,14 @@
 - name: set timezone Asia/Tokyo
   command: timedatectl set-timezone Asia/Tokyo
   when: ansible_facts['date_time']['tz'] != "JST"
+
+- name: disable ipv6 (sysctl)
+  copy:
+    src: sysctl/90-disable-ipv6.conf
+    dest: /etc/sysctl.d/
+
+- name: disable ipv6 (rc.local)
+  copy:
+    src: etc/rc.local
+    dest: /etc/
+    mode: 0755
