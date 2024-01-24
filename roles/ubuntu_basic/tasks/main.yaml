@@ -35,3 +35,20 @@
     src: etc/rc.local
     dest: /etc/
     mode: 0755
+
+- name: check timesyncd.conf.bk exists
+  stat:
+    path: /etc/systemd/timesyncd.conf.bk
+  register: timesyncd_conf
+
+- name: backup timesyncd.conf
+  copy:
+    src: /etc/systemd/timesyncd.conf
+    remote_src: True
+    dest: /etc/systemd/timesyncd.conf.bk
+  when: timesyncd_conf['stat']['exists'] == false
+
+- name: put timesyncd.conf
+  copy:
+    src: etc/systemd/timesyncd.conf
+    dest: /etc/systemd/
