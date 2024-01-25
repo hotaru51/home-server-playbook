@@ -1,0 +1,18 @@
+---
+- name: disable ufw
+  systemd:
+    name: ufw
+    enabled: False
+    state: stopped
+
+- name: check nftables.conf.bk exists
+  stat:
+    path: /etc/nftables.conf.bk
+  register: nftables_conf
+
+- name: backup nftables.conf
+  copy:
+    src: /etc/nftables.conf
+    remote_src: True
+    dest: /etc/nftables.conf.bk
+  when: nftables_conf['stat']['exists'] == False
