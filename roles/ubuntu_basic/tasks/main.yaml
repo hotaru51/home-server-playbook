@@ -48,7 +48,7 @@
     src: /etc/systemd/timesyncd.conf
     remote_src: True
     dest: /etc/systemd/timesyncd.conf.bk
-  when: timesyncd_conf['stat']['exists'] == false
+  when: timesyncd_conf['stat']['exists'] == False
 
 - name: put timesyncd.conf
   copy:
