@@ -20,6 +20,8 @@
 - name: set locale ja_JP.UTF-8
   command: localectl set-locale LANG=ja_JP.UTF-8
   when: ansible_facts['env']['LANG'] != "ja_JP.UTF-8"
+  notify:
+    - system reboot
 
 - name: set timezone Asia/Tokyo
   command: timedatectl set-timezone Asia/Tokyo
@@ -52,3 +54,5 @@
   copy:
     src: etc/systemd/timesyncd.conf
     dest: /etc/systemd/
+  notify:
+    - systemd-timesyncd reload
