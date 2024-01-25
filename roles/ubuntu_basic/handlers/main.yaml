@@ -3,7 +3,6 @@
   systemd:
     name: systemd-timesyncd
     state: restarted
-  become: true
   listen:
     - systemd-timesyncd reload
 
