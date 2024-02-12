@@ -1,0 +1,54 @@
+---
+- name: create minecraft user
+  user:
+    name: 'minecraft'
+    home: '/opt/minecraft'
+    create_home: true
+
+- name: download minecraft server
+  get_url:
+    url: '{{ mc_server_soft_url }}'
+    dest: /tmp/bedrock-server.zip
+
+- name: create minecraft server install directory
+  file:
+    path: /opt/minecraft/bedrock-server
+    state: directory
+    owner: minecraft
+    group: minecraft
+
+- name: extract zip file
+  unarchive:
+    src: /tmp/bedrock-server.zip
+    dest: /opt/minecraft/bedrock-server
+    owner: minecraft
+    group: minecraft
+    remote_src: true
+
+- name: put systemd unit file
+  copy:
+    src: etc/systemd/system/minecraft.service
+    dest: /etc/systemd/system/minecraft.service
+    owner: root
+  notify:
+    - daemon reload
+
+- name: put .screenrc
+  copy:
+    src: opt/minecraft/.screenrc
+    dest: /opt/minecraft/.screenrc
+    owner: minecraft
+    group: minecraft
+
+- name: create minecraft log directory
+  file:
+    path: /var/log/minecraft
+    state: directory
+    owner: minecraft
+    group: minecraft
+
+- name: put logrotate config
+  copy:
+    src: etc/logrotate.d/minecraft
+    dest: /etc/logrotate.d/minecraft
+    owner: root
