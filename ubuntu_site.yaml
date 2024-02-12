@@ -8,3 +8,7 @@
     - name: basic settings
       include_role:
         name: ubuntu_basic
+
+    - name: configure nftables
+      include_role:
+        name: ubuntu_nftables

@@ -1,0 +1,8 @@
+---
+- name: reload nftables
+  systemd:
+    name: nftables
+    enabled: True
+    state: restarted
+  listen:
+    - reload nftables
