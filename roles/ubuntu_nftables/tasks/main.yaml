@@ -16,3 +16,10 @@
     remote_src: True
     dest: /etc/nftables.conf.bk
   when: nftables_conf['stat']['exists'] == False
+
+- name: put nftables.conf
+  copy:
+    src: etc/nftables.conf
+    dest: /etc/nftables.conf
+    mode: 0755
+  notify: reload nftables
