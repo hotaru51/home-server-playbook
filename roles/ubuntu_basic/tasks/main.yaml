@@ -56,3 +56,10 @@
     dest: /etc/systemd/
   notify:
     - systemd-timesyncd reload
+
+- name: put sshd config
+  template:
+    src: etc/ssh/sshd_config.d/00-my.conf.j2
+    dest: /etc/ssh/sshd_config.d/00-my.conf
+  notify:
+    - reload sshd
