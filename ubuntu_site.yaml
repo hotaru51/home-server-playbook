@@ -4,6 +4,11 @@
   become: True
   gather_facts: True
 
+  vars_prompt:
+    - name: ssh_user
+      prompt: enter the allow ssh user name
+      private: false
+
   tasks:
     - name: basic settings
       include_role:
