@@ -1,0 +1,15 @@
+---
+- name: ubuntu setup
+  hosts: minecraft
+  become: True
+  gather_facts: True
+
+  vars_prompt:
+    - name: mc_server_soft_url
+      prompt: enter the minecraft server download URL
+      private: false
+
+  tasks:
+    - name: install minecraft server
+      include_role:
+        name: ubuntu_minecraft_setup
